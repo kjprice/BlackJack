@@ -9,6 +9,12 @@ Other tools:
 - We use ESLlint to make sure that our code is held to the highest quality standard
 - We use Prettier to automatically format code (VSCode is the recommended Code Editor for this to work seemlessly)
 
+## Developer Notes:
+
+#### TODO: Describe ES6 syntax and babel
+
+#### TODO: Describe OOP and react (should use redux instead)
+
 ## Rules and Assumptions
 
 There are two card holders: 1 dealer and 1 player
