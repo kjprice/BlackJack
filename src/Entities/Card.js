@@ -3,6 +3,7 @@ export default class Card {
   value = null;
   display = null;
   suitName = null;
+  isAce = false;
 
   constructor(cardData, suitData) {
     let cardDisplay;
@@ -20,5 +21,9 @@ export default class Card {
     this.display = `${cardDisplay} ${suitData.display}`;
     this.suitName = suitData.name;
     this.color = suitData.color;
+
+    if (cardData.isAce) {
+      this.isAce = true;
+    }
   }
 }

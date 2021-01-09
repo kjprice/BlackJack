@@ -13,6 +13,7 @@ export const ROYAL_CARDS = {
   },
   ACE: {
     values: [1, 11],
+    isAce: true,
     display: "Ace",
   },
 };

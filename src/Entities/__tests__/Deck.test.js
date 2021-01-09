@@ -14,12 +14,14 @@ describe("Deck", () => {
       color: "black",
       value: 2,
       display: "2 ♠",
+      isAce: false,
       suitName: "Spade",
     });
     expect(lastCard).toEqual({
       color: "black",
       value: [1, 11],
       display: "Ace ♣",
+      isAce: true,
       suitName: "Club",
     });
   });

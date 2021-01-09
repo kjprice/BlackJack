@@ -1,5 +1,7 @@
 // Fisher-Yates (aka "Knuth") algorithm - taken from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-export const shuffle = (array) => {
+export const shuffle = (inputArray) => {
+  // Make a shallow copy of the array
+  const array = [...inputArray];
   var currentIndex = array.length,
     temporaryValue,
     randomIndex;
@@ -17,6 +19,24 @@ export const shuffle = (array) => {
   }
 
   return array;
+};
+
+export const categorizeCardsByAces = (cards) => {
+  const aces = [];
+  const notAces = [];
+
+  cards.forEach((card) => {
+    if (card.isAce) {
+      aces.push(card);
+    } else {
+      notAces.push(card);
+    }
+  });
+
+  return {
+    aces,
+    notAces,
+  };
 };
 
 export default shuffle;

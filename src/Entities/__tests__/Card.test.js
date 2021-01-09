@@ -9,6 +9,7 @@ describe("Card", () => {
     expect(card.display).toEqual("1 ♥");
     expect(card.color).toEqual("red");
     expect(card.suitName).toEqual("Heart");
+    expect(card.isAce).toEqual(false);
   });
 
   it("should create an Ace of Diamonds card", () => {
@@ -18,5 +19,6 @@ describe("Card", () => {
     expect(card.display).toEqual("Ace ♦");
     expect(card.color).toEqual("red");
     expect(card.suitName).toEqual("Diamond");
+    expect(card.isAce).toEqual(true);
   });
 });
