@@ -1,4 +1,9 @@
-import { categorizeCardsByAces, shuffle } from "../cards.utility";
+import {
+  calculateCardValues,
+  categorizeCardsByAces,
+  sum,
+  shuffle,
+} from "../cards.utility";
 
 const isMatch = (array1, array2) => {
   return array1.every((val, n) => val === array2[n]);
@@ -47,6 +52,42 @@ describe("Card utility functions", () => {
       expect(categorizeCardsByAces(pseudoCards)).toEqual({
         aces: [{ isAce: true }],
         notAces: [{}, {}],
+      });
+    });
+  });
+  describe("Calculate Card Values", () => {
+    const createAce = () => ({ isAce: true });
+    const createAces = (acesCount) => {
+      const aces = [];
+      for (let i = 0; i < acesCount; i += 1) {
+        aces.push(createAce());
+      }
+      return aces;
+    };
+
+    it("should performat mathematic sum operation on array", () => {
+      expect(sum([1, 2])).toEqual(3);
+    });
+    it("should calculate basic card values", () => {
+      const cards = [{ value: 5 }, { value: 2 }];
+      expect(calculateCardValues(cards)).toEqual(7);
+    });
+    describe("Values With Aces", () => {
+      it("should show ace as being worth 11", () => {
+        const cards = [createAce(), { value: 10 }];
+        expect(calculateCardValues(cards)).toEqual(21);
+      });
+      it("should show ace as being worth 1", () => {
+        const cards = [createAce(), { value: 10 }, { value: 2 }];
+        expect(calculateCardValues(cards)).toEqual(13);
+      });
+      it("should handle 2 aces", () => {
+        const twoAces = createAces(2);
+        expect(calculateCardValues(twoAces)).toEqual(12);
+      });
+      it("should handle 10 aces", () => {
+        const tenAces = createAces(10);
+        expect(calculateCardValues(tenAces)).toEqual(20);
       });
     });
   });

@@ -60,3 +60,7 @@ export const SUITS = {
 };
 
 export const DECK_SIZE = 52;
+export const MAX_HAND_VALUE = 21;
+
+// TODO: Verify this is true
+export const MAX_PLAYER_SCORE_UNTIL_STOP = 16;
