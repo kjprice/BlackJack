@@ -1,6 +1,8 @@
 import Deck from "./Deck";
 import OutOfCardsError from "./ErrorClasses/OutOfCardsError";
 
+import { shuffle } from "../utility/cards.utility";
+
 const createDecks = (numberOfDecks) => {
   const decks = [];
   for (let i = 0; i < numberOfDecks; i += 1) {
@@ -30,6 +32,10 @@ export default class Shoe {
   }
 
   cardCount = () => this.cards.length;
+
+  shuffleCards = () => {
+    this.cards = shuffle(this.cards);
+  };
 
   giveCard = () => {
     if (this.cardCount() === 0) {
