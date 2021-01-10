@@ -19,7 +19,7 @@ Other tools:
 
 There are two card holders: 1 dealer and 1 player
 
-The playable cards come from a shoe. A _shoe_ is defined here as 6 decks (of standard playing cards) for a total of `52 * 6 = 312` cards.
+The playable cards come from a shoe. A _shoe_ is defined here as 6 decks (of standard playing cards) for a total of `52 * 6 = 312` cards. Each deck will be shuffled and stacked to make a shoe. Because of how the decks are stacked, it is possible that the same card can show up in the same hand (a user can play an Ace of Spades twice in the same hand).
 
 ## Instructions
 
