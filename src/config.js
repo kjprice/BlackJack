@@ -1,20 +1,20 @@
 export const ROYAL_CARDS = {
   JACK: {
     value: 10,
-    display: "Jack",
+    display: "J",
   },
   QUEEN: {
     value: 10,
-    display: "Queen",
+    display: "Q",
   },
   KING: {
     value: 10,
-    display: "King",
+    display: "K",
   },
   ACE: {
     values: [1, 11],
     isAce: true,
-    display: "Ace",
+    display: "A",
   },
 };
 

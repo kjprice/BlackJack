@@ -11,7 +11,7 @@ const createUnshuffledShoe = (numberOfDecks) => {
 };
 
 const createUnshuffledGame = (numberOfPlayers, deckCount) => {
-  return new Game(numberOfPlayers, deckCount, false);
+  return new Game(numberOfPlayers, deckCount, { shuffleDeck: false });
 };
 
 const createShuffledGame = (numberOfPlayers, deckCount) => {

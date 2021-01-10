@@ -2,13 +2,14 @@ import Dealer from "./Dealer";
 import Player from "./Player";
 import Shoe from "./Shoe";
 import { numToDecimalPlace } from "../utility/misc.utility";
+import { MAX_PLAYER_SCORE_UNTIL_STOP } from "../config";
 
 import getTopScoreFromAllPlayers from "../utility/players.utility";
 
-const createPlayers = (shoe, numberOfPlayers) => {
+const createPlayers = (shoe, numberOfPlayers, playerScoreToStop) => {
   const players = [];
   for (let i = 0; i < numberOfPlayers; i += 1) {
-    const player = new Player(shoe);
+    const player = new Player(shoe, { playerScoreToStop });
     players.push(player);
   }
 
@@ -26,10 +27,14 @@ export default class Game {
   players = null;
   cardHolders = null;
 
-  constructor(numberOfPlayers, deckCount, shuffleDeck = true) {
+  constructor(
+    numberOfPlayers,
+    deckCount,
+    { shuffleDeck = true, playerScoreToStop = MAX_PLAYER_SCORE_UNTIL_STOP } = {}
+  ) {
     const shoe = new Shoe(deckCount, shuffleDeck);
 
-    const players = createPlayers(shoe, numberOfPlayers);
+    const players = createPlayers(shoe, numberOfPlayers, playerScoreToStop);
     const dealer = new Dealer(shoe, players);
 
     this.timeStart = new Date();
@@ -70,6 +75,10 @@ export default class Game {
 
     return groupsByScore;
   }
+
+  getLogsPerRound = () => {
+    return this.statsPerRound;
+  };
 
   createFinalStats = () => {
     const { totalGamesPlayersWin, playerWiningScoresByFrequency } = this;

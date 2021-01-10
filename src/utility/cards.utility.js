@@ -68,4 +68,10 @@ export const calculateCardValues = (cards) => {
   return calculateValuesOfAces(notAcesValue, aces.length);
 };
 
+export const serializeCardIds = (hands) => {
+  const handTexts = hands.map((hand) => hand.id);
+
+  return handTexts.join("|");
+};
+
 export default shuffle;
