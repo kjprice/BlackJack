@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 import Game from "./Entities/Game";
 
-import FinalStats from "./Components/FinalStats";
-import GameLog from "./Components/GameLog";
+import GameDetails from "./Components/GameDetails";
 
 import "./App.css";
 
@@ -31,20 +30,22 @@ function App() {
       numberOfDecks,
       playerScoreToStop
     );
+
     const { finalStats, logs } = stats;
+
     setFinalStats(finalStats);
 
     setLogs(logs);
   };
 
-  // TODO: Add logic if could not play a single game (like if players=1000)
-
   return (
-    <div className="App">
+    <div className="app">
       <h1>Black Jack</h1>
       <p>
         Play an automated game of Black Jack. Provide any settings (or leave the
-        defaults) and hit "Play" button below.
+        defaults) and hit "Play" button below. For each game, the dealer will
+        keep playing until their hand beats other players (or until the dealer
+        busts)
       </p>
       <h3>Settings</h3>
       <div>
@@ -64,7 +65,7 @@ function App() {
         />
       </div>{" "}
       <div>
-        Player Score To Stop:{" "}
+        Score to reach until player stops:{" "}
         <input
           type="number"
           value={playerScoreToStop}
@@ -72,8 +73,7 @@ function App() {
         />
       </div>
       <button onClick={playGame}>Play!</button>
-      <FinalStats finalStats={finalStats} />
-      <GameLog logs={logs} />
+      <GameDetails finalStats={finalStats} logs={logs} />
     </div>
   );
 }

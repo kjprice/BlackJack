@@ -10,6 +10,7 @@ const FinalStats = (props) => {
     percentPlayerWins,
     totalGamesFinished,
     timePassed,
+    percentTies,
   } = finalStats;
 
   return (
@@ -17,7 +18,9 @@ const FinalStats = (props) => {
       <h3>Statistics - Overview</h3>
       <div>Number of Games: {totalGamesFinished}</div>
       <div>Player Success: {percentPlayerWins}%</div>
-      <div>Time Passed (in millisecons): {timePassed}</div>
+      <div>Games Tied: {percentTies}%</div>
+      <div>Time Passed (in milliseconds): {timePassed}</div>
+      <div>Winning Hand Score Frequency: </div>
       <PlayerScores
         playerWiningScoresByFrequency={playerWiningScoresByFrequency}
       />

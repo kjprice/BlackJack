@@ -53,6 +53,14 @@ export default class Game {
     return this.statsPerRound.filter((stat) => !stat.dealerWins);
   }
 
+  get gamesTied() {
+    return this.statsPerRound.filter((stat) => stat.isUncontested);
+  }
+
+  get totalGamesTied() {
+    return this.gamesTied.length;
+  }
+
   get totalGamesPlayersWin() {
     return this.gamesPlayerWon.length;
   }
@@ -81,12 +89,19 @@ export default class Game {
   };
 
   createFinalStats = () => {
-    const { totalGamesPlayersWin, playerWiningScoresByFrequency } = this;
+    const {
+      totalGamesPlayersWin,
+      playerWiningScoresByFrequency,
+      totalGamesTied,
+    } = this;
     const totalGamesFinished = this.statsPerRound.length;
 
     const percentPlayerWinsRaw =
       (totalGamesPlayersWin / totalGamesFinished) * 100;
-    const percentPlayerWins = numToDecimalPlace(percentPlayerWinsRaw, 2);
+    const percentPlayerWins = numToDecimalPlace(percentPlayerWinsRaw, 1);
+
+    const percentTiesRaw = (totalGamesTied / totalGamesFinished) * 100;
+    const percentTies = numToDecimalPlace(percentTiesRaw, 1);
 
     const timePassed = this.timeEnd - this.timeStart;
 
@@ -95,6 +110,7 @@ export default class Game {
       playerWiningScoresByFrequency,
       percentPlayerWins,
       timePassed,
+      percentTies,
     };
   };
 

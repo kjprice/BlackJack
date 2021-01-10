@@ -11,15 +11,17 @@ Other tools:
 
 ## Developer Notes:
 
-#### TODO: Describe ES6 syntax and babel
+I have decided to build this using React, compiled using babel. Because of this, there will be some syntax unique to ES6, which has to be compiled before the code can run on some browsers (most ES6 features work in Chrome but not IE for example).
 
-#### TODO: Describe OOP and react (should use redux instead)
+I have decided to use the "Game" entity to store all logic related to a game. This is not the ideal way to store state in react. A better solution would be to use redux. This would perform huge performance improvements and would allow to see game play in real time (you could see the results of each hand as they are played for example).
 
 ## Rules and Assumptions
 
 There are two card holders: 1 dealer and 1 player
 
 The playable cards come from a shoe. A _shoe_ is defined here as 6 decks (of standard playing cards) for a total of `52 * 6 = 312` cards. Each deck will be shuffled and stacked to make a shoe. Because of how the decks are stacked, it is possible that the same card can show up in the same hand (a user can play an Ace of Spades twice in the same hand).
+
+The outcome of the hand can be one of the following: A tie, Player(s) win, Dealer wins
 
 ## Instructions
 

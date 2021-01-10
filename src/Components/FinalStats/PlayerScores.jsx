@@ -6,9 +6,9 @@ const PlayerScore = (props) => {
   const { score, frequency } = props;
 
   return (
-    <div>
+    <li>
       {score} ={">"} {frequency}
-    </div>
+    </li>
   );
 };
 
@@ -19,7 +19,7 @@ const PlayerScores = (props) => {
   const scoresSorted = sortScores(scoresRaw);
 
   return (
-    <div>
+    <ul>
       {scoresSorted.map((score) => (
         <PlayerScore
           key={score}
@@ -27,7 +27,7 @@ const PlayerScores = (props) => {
           frequency={playerWiningScoresByFrequency[score]}
         />
       ))}
-    </div>
+    </ul>
   );
 };
 

@@ -3,33 +3,58 @@ import CardDisplays from "./CardDisplays";
 import { serializeCardIds } from "../../utility/cards.utility";
 
 const PlayerHand = (props) => {
-  const { playersCount, n, hand } = props;
+  const { playersCount, n, hand, label } = props;
   const onlyPlayer = playersCount === 1;
-  const label = `Player ${onlyPlayer ? "" : `${n}`} hand: `;
+
+  let _label;
+  if (label) {
+    _label = label;
+  } else {
+    _label = `Player ${onlyPlayer ? "" : `${n}`} hand: `;
+  }
 
   return (
     <div>
-      {label}
+      {_label}
       <CardDisplays cards={hand} />
     </div>
   );
 };
 
+const RoundOutcome = (props) => {
+  const { roundLog } = props;
+  const { dealerWins, isUncontested } = roundLog;
+
+  if (isUncontested) {
+    return "A Tie!";
+  }
+
+  if (dealerWins) {
+    return "Dealer Wins!";
+  }
+
+  return "Player Wins!";
+};
+
 const RoundLog = (props) => {
   const { roundLog } = props;
 
-  const { playersHands } = roundLog;
+  const { dealerHand, playersHands } = roundLog;
 
   const playersCount = playersHands.length;
 
   return (
-    <div>
+    <p>
       {playersHands.map((hand, n) => (
         <div key={serializeCardIds(hand)}>
           <PlayerHand playersCount={playersCount} n={n} hand={hand} />
         </div>
       ))}
-    </div>
+      <PlayerHand label="Dealer Hand: " hand={dealerHand} />
+      <div>
+        Outcome: <RoundOutcome roundLog={roundLog} />
+      </div>
+    </p>
   );
 };
 
@@ -56,7 +81,6 @@ const GameLog = (props) => {
   if (!logs) {
     return null;
   }
-  console.log({ logs });
   return (
     <div>
       <h3>Game Log</h3>
