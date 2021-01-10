@@ -1,4 +1,6 @@
 import { MAX_HAND_VALUE } from "../config";
+import getTopScoreFromAllPlayers from "../utility/players.utility";
+
 import CardHolder from "./CardHolder";
 import RequiredPlayersError from "./ErrorClasses/RequiredPlayersError";
 
@@ -8,12 +10,6 @@ const validatePlayersArgument = (players) => {
       "The dealer must know of at least one or more players"
     );
   }
-};
-
-const getHighestScoreFromPlayers = (previousHighScore, player) => {
-  const { handValue } = player;
-
-  return Math.max(previousHighScore, handValue);
 };
 
 export default class Dealer extends CardHolder {
@@ -27,14 +23,9 @@ export default class Dealer extends CardHolder {
     this.players = players;
   }
 
-  get topScoreFromOtherPlayers() {
-    const playersWhoHaveNotBusted = this.players.filter((p) => !p.isBusted());
-
-    return playersWhoHaveNotBusted.reduce(getHighestScoreFromPlayers, 0);
-  }
-
   get scoreToAchieve() {
-    const { topScoreFromOtherPlayers } = this;
+    const { players } = this;
+    const topScoreFromOtherPlayers = getTopScoreFromAllPlayers(players);
     if (topScoreFromOtherPlayers === 0) {
       return 1;
     }
@@ -44,7 +35,7 @@ export default class Dealer extends CardHolder {
 
   decidePlay = () => {
     const { scoreToAchieve } = this;
-    while (this.getHandValue() < scoreToAchieve) {
+    while (this.getHandValue() < scoreToAchieve && this.cardsLeftToPlayWith()) {
       this.hit();
     }
   };

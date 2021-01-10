@@ -40,6 +40,8 @@ export default class Shoe {
     this.cards = flattenDecks(this.decks);
   }
 
+  hasMoreCards = () => this.cards.length > 0;
+
   cardCount = () => this.cards.length;
 
   shuffleCards = () => {

@@ -14,6 +14,10 @@ const createUnshuffledGame = (numberOfPlayers, deckCount) => {
   return new Game(numberOfPlayers, deckCount, false);
 };
 
+const createShuffledGame = (numberOfPlayers, deckCount) => {
+  return new Game(numberOfPlayers, deckCount);
+};
+
 describe("Game Play", () => {
   // Integration Tests
   describe("Playing through all cards", () => {
@@ -40,14 +44,21 @@ describe("Game Play", () => {
     });
   });
   describe("Game Setup", () => {
-    it("should create a basic game", () => {
+    const unshuffledDeckForVerification = new Deck();
+    it("should create a basic unshuffled game", () => {
       const game = createUnshuffledGame(1, 1);
+      expect(game.shoe.cards).toEqual(unshuffledDeckForVerification.cards);
 
       expect(game.players).toHaveLength(1);
 
       expect(game.shoe).toBeInstanceOf(Shoe);
       expect(game.dealer).toBeInstanceOf(Dealer);
       expect(game.players[0]).toBeInstanceOf(Player);
+    });
+
+    it("should create a basic shuffled game", () => {
+      const game = createShuffledGame(1, 1);
+      expect(game.shoe.cards).not.toEqual(unshuffledDeckForVerification.cards);
     });
   });
 
@@ -89,6 +100,42 @@ describe("Game Play", () => {
 
       expect(player.isBusted()).toEqual(false);
       expect(dealer.isBusted()).toEqual(true);
+    });
+  });
+
+  describe("Entire Game Play", () => {
+    it("should play a game (with a single unshuffled deck) through the end", () => {
+      const game = createUnshuffledGame(1, 1);
+
+      game.playUntilShoeIsDepleted();
+      const finalStats = game.createFinalStats();
+
+      const { timePassed } = finalStats;
+      expect(timePassed).toBeLessThan(3);
+
+      expect(finalStats).toEqual({
+        totalGamesFinished: 9,
+        playerWiningScoresByFrequency: { 16: 1, 18: 1, 20: 5 },
+        percentPlayerWins: 77.78,
+        timePassed,
+      });
+    });
+
+    it("should play a game (with 6 unshuffled decks) through the end", () => {
+      const game = createUnshuffledGame(1, 6);
+
+      game.playUntilShoeIsDepleted();
+      const finalStats = game.createFinalStats();
+
+      const { timePassed } = finalStats;
+      expect(timePassed).toBeLessThan(3);
+
+      expect(finalStats).toEqual({
+        totalGamesFinished: 56,
+        playerWiningScoresByFrequency: { 16: 8, 18: 8, 20: 24 },
+        percentPlayerWins: 71.43,
+        timePassed,
+      });
     });
   });
 });

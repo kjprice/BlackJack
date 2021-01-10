@@ -7,7 +7,9 @@ export default class Player extends CardHolder {
   }
 
   decidePlay = () => {
-    while (this.getHandValue() < MAX_PLAYER_SCORE_UNTIL_STOP) {
+    const scoreToAchieve = MAX_PLAYER_SCORE_UNTIL_STOP;
+
+    while (this.getHandValue() < scoreToAchieve) {
       this.hit();
     }
   };

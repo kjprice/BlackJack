@@ -25,6 +25,7 @@ export default class CardHolder {
   hand = [];
   handBust = false;
   handValue = 0;
+  ranOutOfCards = false;
 
   title = null;
   shoe = null;
@@ -40,6 +41,8 @@ export default class CardHolder {
 
   getHandValue = () => this.handValue;
 
+  cardsLeftToPlayWith = () => this.shoe.hasMoreCards();
+
   setHandValue = () => {
     const { hand } = this;
     const handValue = calculateCardValues(hand);
@@ -52,12 +55,21 @@ export default class CardHolder {
   resetHand = () => {
     this.hand = [];
     this.handBust = false;
+    this.ranOutOfCards = false;
     this.setHandValue();
   };
 
+  setRanOutOfCards = () => {
+    this.ranOutOfCards = true;
+
+    // To make sure we will break out of any loops
+    this.handValue = Infinity;
+  };
+
   hit = () => {
-    if (this.shoe.cardCount() === 0) {
-      return null;
+    if (!this.cardsLeftToPlayWith()) {
+      this.setRanOutOfCards();
+      return;
     }
 
     this.hand.push(this.shoe.giveCard());
