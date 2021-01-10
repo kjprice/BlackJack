@@ -3,9 +3,15 @@ import Deck from "../Deck";
 import OutOfCardsError from "../ErrorClasses/OutOfCardsError";
 import { DECK_SIZE } from "../../config";
 import Game from "../Game";
+import Dealer from "../Dealer";
+import Player from "../Player";
 
 const createUnshuffledShoe = (numberOfDecks) => {
   return new Shoe(numberOfDecks, false);
+};
+
+const createUnshuffledGame = (numberOfPlayers, deckCount) => {
+  return new Game(numberOfPlayers, deckCount, false);
 };
 
 describe("Game Play", () => {
@@ -33,17 +39,56 @@ describe("Game Play", () => {
       expect(fn).toThrow(OutOfCardsError);
     });
   });
+  describe("Game Setup", () => {
+    it("should create a basic game", () => {
+      const game = createUnshuffledGame(1, 1);
 
-  describe("Entire Game Play", () => {
-    it("should play a game (with unshuffled deck) through the end", () => {
-      const game = new Game(1, 6, false);
-      expect(game.shoe.cards).toHaveLength(DECK_SIZE * 6);
-      //   console.log(game.shoe.cards.length);
-      game.playRound();
-      //   console.log(game.shoe.cards.length);
-      // TODO: Determine how many cards are left
-      // TODO: Get currents stats
-      // TODO: Continue playing until game is over
+      expect(game.players).toHaveLength(1);
+
+      expect(game.shoe).toBeInstanceOf(Shoe);
+      expect(game.dealer).toBeInstanceOf(Dealer);
+      expect(game.players[0]).toBeInstanceOf(Player);
+    });
+  });
+
+  describe("Play A Single Game", () => {
+    const NUMBER_OF_PLAYERS = 1;
+    const DECK_COUNT = 6;
+    const FULL_SHOE_CARD_COUNT = DECK_SIZE * DECK_COUNT;
+
+    it("should have expected cards in hands after a single game", () => {
+      const game = createUnshuffledGame(NUMBER_OF_PLAYERS, DECK_COUNT);
+      //   game.playRound();
+      game.playCardsForAllCardHolders();
+
+      // This absolutely depends on the order of cards
+      const expectedPlayerCardCount = 5;
+      const expectedDealerCardCount = 3;
+      expect(game.players[0].hand).toHaveLength(expectedPlayerCardCount);
+
+      expect(game.dealer.hand).toHaveLength(expectedDealerCardCount);
+
+      const expectedCountOfCardsUsed =
+        expectedPlayerCardCount + expectedDealerCardCount;
+      const expectedCardsLeftOver =
+        FULL_SHOE_CARD_COUNT - expectedCountOfCardsUsed;
+      expect(game.shoe.cards.length).toEqual(expectedCardsLeftOver);
+    });
+
+    it("should show that dealer busts after a single game (first round of playing)", () => {
+      const game = createUnshuffledGame(NUMBER_OF_PLAYERS, DECK_COUNT);
+      //   game.playRound();
+      game.playCardsForAllCardHolders();
+
+      const {
+        players: [player],
+        dealer,
+      } = game;
+      expect(player.getHandValue()).toEqual(20);
+      expect(dealer.getHandValue()).toEqual(24);
+
+      expect(player.isBusted()).toEqual(false);
+      expect(dealer.isBusted()).toEqual(true);
     });
   });
 });

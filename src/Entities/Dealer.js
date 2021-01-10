@@ -1,3 +1,4 @@
+import { MAX_HAND_VALUE } from "../config";
 import CardHolder from "./CardHolder";
 import RequiredPlayersError from "./ErrorClasses/RequiredPlayersError";
 
@@ -7,6 +8,12 @@ const validatePlayersArgument = (players) => {
       "The dealer must know of at least one or more players"
     );
   }
+};
+
+const getHighestScoreFromPlayers = (previousHighScore, player) => {
+  const { handValue } = player;
+
+  return Math.max(previousHighScore, handValue);
 };
 
 export default class Dealer extends CardHolder {
@@ -20,7 +27,25 @@ export default class Dealer extends CardHolder {
     this.players = players;
   }
 
+  get topScoreFromOtherPlayers() {
+    const playersWhoHaveNotBusted = this.players.filter((p) => !p.isBusted());
+
+    return playersWhoHaveNotBusted.reduce(getHighestScoreFromPlayers, 0);
+  }
+
+  get scoreToAchieve() {
+    const { topScoreFromOtherPlayers } = this;
+    if (topScoreFromOtherPlayers === 0) {
+      return 1;
+    }
+
+    return Math.min(MAX_HAND_VALUE, topScoreFromOtherPlayers);
+  }
+
   decidePlay = () => {
-    // TODO: The dealer should go through all players hands and keep hitting until either hand busts or beats players
+    const { scoreToAchieve } = this;
+    while (this.getHandValue() < scoreToAchieve) {
+      this.hit();
+    }
   };
 }
