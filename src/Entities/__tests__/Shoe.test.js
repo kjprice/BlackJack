@@ -17,7 +17,7 @@ describe("Shoe", () => {
 
   it("should get a card from an unshuffled shoe", () => {
     const DECK_COUNT = 1;
-    const shoe = new Shoe(DECK_COUNT);
+    const shoe = new Shoe(DECK_COUNT, false);
 
     const card = shoe.giveCard();
     //   Because that the deck is unshuffled, we always know the order of the cards

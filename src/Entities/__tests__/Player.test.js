@@ -15,7 +15,7 @@ describe("Player", () => {
   });
 
   it("should have a player play until reaches 16 or goes above 21", () => {
-    const shoe = new Shoe(DECK_SIZE);
+    const shoe = new Shoe(DECK_SIZE, false);
     const firstFiveCards = shoe.cards.slice(0, 5);
     const firstFiveCardsValues = calculateCardValues(firstFiveCards);
 

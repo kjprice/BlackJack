@@ -4,11 +4,15 @@ import OutOfCardsError from "../ErrorClasses/OutOfCardsError";
 import { DECK_SIZE } from "../../config";
 import Game from "../Game";
 
+const createUnshuffledShoe = (numberOfDecks) => {
+  return new Shoe(numberOfDecks, false);
+};
+
 describe("Game Play", () => {
   // Integration Tests
   describe("Playing through all cards", () => {
     it("should go through all cards in an unshuffled shoe", () => {
-      const shoe = new Shoe(1);
+      const shoe = createUnshuffledShoe(1);
       const deck = new Deck();
 
       for (let i = 0; i < DECK_SIZE; i += 1) {
@@ -19,7 +23,7 @@ describe("Game Play", () => {
       }
     });
     it("should throw an error when we run out of cards", () => {
-      const shoe = new Shoe(1);
+      const shoe = createUnshuffledShoe(1);
       const fn = () => shoe.giveCard();
 
       for (let i = 0; i < DECK_SIZE; i += 1) {

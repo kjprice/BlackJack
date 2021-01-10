@@ -16,11 +16,17 @@ const flattenDecks = (decks) => {
   return decks.reduce((allCards, deck) => [...allCards, ...deck.cards], []);
 };
 
+const shuffleDecks = (decks) => {
+  decks.forEach((deck) => {
+    deck.shuffleCards();
+  });
+};
+
 export default class Shoe {
   decks = null;
   cards = null;
 
-  constructor(numberOfDecks) {
+  constructor(numberOfDecks, shouldShuffleDekcs = true) {
     if (typeof numberOfDecks !== "number" || numberOfDecks === 0) {
       throw new TypeError(
         `Number of decks must be a valid number greater than zero`
@@ -28,6 +34,9 @@ export default class Shoe {
     }
 
     this.decks = createDecks(numberOfDecks);
+    if (shouldShuffleDekcs) {
+      shuffleDecks(this.decks);
+    }
     this.cards = flattenDecks(this.decks);
   }
 

@@ -3,8 +3,8 @@ import RequiredShoeArgumentError from "../ErrorClasses/RequiredShoeArgumentError
 import RequiredTitleArgumentError from "../ErrorClasses/RequiredTitleArgumentError";
 import Shoe from "../Shoe";
 
-const createShoe = (deckCount) => {
-  return new Shoe(deckCount);
+const createUnshuffledShoe = (deckCount) => {
+  return new Shoe(deckCount, false);
 };
 
 describe("CardHolder", () => {
@@ -17,14 +17,14 @@ describe("CardHolder", () => {
     );
   });
   it("should create a card holdler", () => {
-    const shoe = createShoe(6);
+    const shoe = createUnshuffledShoe(6);
 
     expect(() => new CardHolder("some title", shoe)).not.toThrowError();
   });
 
   describe("Card Holder Playing Hand", () => {
     const createCardHolder = () => {
-      const shoe = createShoe(6);
+      const shoe = createUnshuffledShoe(6);
 
       const cardHolder = new CardHolder("some title", shoe);
 

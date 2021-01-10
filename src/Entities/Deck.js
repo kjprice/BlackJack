@@ -1,4 +1,5 @@
 import { CARDS_IN_SUIT, SUITS } from "../config";
+import shuffle from "../utility/cards.utility";
 import Card from "./Card";
 
 function createDeckCards() {
@@ -20,4 +21,8 @@ export default class Deck {
   constructor() {
     this.cards = createDeckCards();
   }
+
+  shuffleCards = () => {
+    this.cards = shuffle(this.cards);
+  };
 }

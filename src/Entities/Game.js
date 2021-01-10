@@ -13,16 +13,15 @@ const createPlayers = (shoe, numberOfPlayers) => {
 };
 
 export default class Game {
+  statsPerRound = [];
+
   shoe = null;
   dealer = null;
   players = null;
   cardHolders = null;
 
   constructor(numberOfPlayers, deckCount, shuffleDeck = true) {
-    const shoe = new Shoe(deckCount);
-    if (shuffleDeck) {
-      shoe.shuffleCards();
-    }
+    const shoe = new Shoe(deckCount, shuffleDeck);
 
     const players = createPlayers(shoe, numberOfPlayers);
     const dealer = new Dealer(shoe, players);
@@ -37,12 +36,17 @@ export default class Game {
     this.cardHolders.forEach((cardHolder) => cardHolder.resetHand());
   };
 
-  playRound = () => {
-    this.players.forEach((player) => {
-      player.decidePlay();
+  playCardsForAllCardHolders = () => {
+    this.cardHolders.forEach((cardHolder) => {
+      cardHolder.decidePlay();
     });
+  };
 
-    this.dealer.decidePlay();
+  getRoundStats = () => {};
+
+  playRound = () => {
+    this.playCardsForAllCardHolders();
+
     // TODO: Gather statistics at this point
     this.resetAllCardHolders();
   };
